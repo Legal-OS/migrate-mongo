@@ -3,7 +3,7 @@
 const program = require("commander");
 const _ = require("lodash");
 const Table = require("cli-table");
-const migrateMongo = require("../build/migrate-mongo");
+const migrateMongo = require("../lib/migrate-mongo");
 const pkgjson = require("../package.json");
 
 function printMigrated(migrated = []) {
@@ -33,7 +33,7 @@ program
       .init()
       .then(() =>
         console.log(
-          `Initialization successful. Please edit the generated \`${migrateMongo.config.getConfigFilename()}\` file`
+          `Initialization successful. Please edit the generated \`${migrateMongo.configFile.getConfigFilename()}\` file`
         )
       )
       .catch(err => handleError(err))
@@ -48,7 +48,7 @@ program
     migrateMongo
       .create(description)
       .then(fileName => 
-        migrateMongo.config.read().then(config => {
+        migrateMongo.configFile.read().then(config => {
           console.log(`Created: ${config.migrationsDir}/${fileName}`);
         })
       )
